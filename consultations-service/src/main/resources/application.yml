@@ -1,0 +1,85 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONSULTATIONS SERVICE CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
+# WHY: Configures the Consultations microservice settings.
+# Students: Modify database settings for your environment.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+server:
+  port: 8087  # Each microservice runs on a different port
+
+spring:
+  application:
+    name: consultations-service  # This name is used for Eureka registration
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DATABASE CONFIGURATION
+  # WHY: Each microservice has its OWN database (database per service pattern)
+  # Students: Update credentials for your environment
+  # ═══════════════════════════════════════════════════════════════════════════
+  datasource:
+    url: jdbc:postgresql://localhost:5438/hospital_consultations
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # JPA/HIBERNATE CONFIGURATION
+  # ═══════════════════════════════════════════════════════════════════════════
+  jpa:
+    hibernate:
+      # WHY update: Auto-creates/updates tables. Use 'validate' in production.
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EUREKA CLIENT CONFIGURATION
+# WHY: Registers this service with the discovery server
+# ═══════════════════════════════════════════════════════════════════════════════
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ACTUATOR CONFIGURATION
+# WHY: Exposes health endpoints for monitoring and orchestration
+# ═══════════════════════════════════════════════════════════════════════════════
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SWAGGER/OPENAPI CONFIGURATION
+# This is mandatory according to the Kit Commun
+# ═══════════════════════════════════════════════════════════════════════════════
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LOGGING CONFIGURATION
+# IMPORTANT: Never log diagnostic data in clear text!
+# ═══════════════════════════════════════════════════════════════════════════════
+logging:
+  level:
+    root: INFO
+    com.hospital.consultations: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
