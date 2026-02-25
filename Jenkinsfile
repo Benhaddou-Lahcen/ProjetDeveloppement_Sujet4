@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+
+    tools {
+        // Utilise l'installation Maven 3.9.12 configurée dans Jenkins
+        maven 'Maven'
+    }
+
+    environment {
+        // Liste de tes dossiers de micro-services Spring Boot
+        SERVICES = "auth-service appointment-service consultations-service gateway-service medical-record-service patient-service staff-service users-service"
+    }
+
+    stages {
+        stage('Stage 1: Checkout') {
+            steps {
+                // Récupère le code de la branche actuelle via GitHub
+                checkout scm
+            }
+        }
+
+        stage('Stage 2: Multiservice Build & Scan') {
+            steps {
+                script {
+                    def serviceList = SERVICES.split(' ')
+                    
+                    for (service in serviceList) {
+                        stage("Service: ${service}") {
+                            echo "🚀 Traitement du service : ${service}"
+                            
+                            // Entre dans le dossier spécifique du micro-service pour l'isoler
+                            dir("${service}") {
+                                // 1. Compilation via Maven
+                                sh 'mvn clean compile'
+                                
+                                // 2. Analyse SonarQube dédiée à ce service
+                                withSonarQubeEnv('SonarQube') {
+                                    sh """
+                                        mvn sonar:sonar \
+                                        -Dsonar.projectKey=medical-app-${service} \
+                                        -Dsonar.projectName="Medical - ${service}"
+                                    """
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
