@@ -5,7 +5,7 @@ pipeline {
         // Utilise l'installation Maven 3.9.12 configurée dans Jenkins
         maven 'Maven'
     }
-
+ 
     environment {
         // Liste de tes dossiers de micro-services Spring Boot
         SERVICES = "auth-service appointment-service consultations-service gateway-service medical-record-service patient-service staff-service users-service discovery-service eureka-service frontend ml2"
