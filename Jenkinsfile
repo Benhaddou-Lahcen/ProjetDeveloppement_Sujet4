@@ -2,19 +2,20 @@ pipeline {
     agent any
 
     tools {
-        // Utilise l'installation Maven 3.9.12 configurée dans Jenkins
+        // Ces noms doivent correspondre exactement à ceux dans "Global Tool Configuration"
         maven 'Maven'
+        nodejs 'NodeJS'
     }
- 
+
     environment {
-        // Liste de tes dossiers de micro-services Spring Boot
+        // Liste de tous tes services (incluant Java, Frontend et ML)
         SERVICES = "auth-service appointment-service consultations-service gateway-service medical-record-service patient-service staff-service users-service discovery-service eureka-service frontend ml2"
     }
 
     stages {
         stage('Stage 1: Checkout') {
             steps {
-                // Récupère le code de la branche actuelle via GitHub
+                // Récupère le code depuis GitHub
                 checkout scm
             }
         }
@@ -26,26 +27,68 @@ pipeline {
                     
                     for (service in serviceList) {
                         stage("Service: ${service}") {
-                            echo "🚀 Traitement du service : ${service}"
+                            echo "🚀 Traitement en cours : ${service}"
                             
-                            // Entre dans le dossier spécifique du micro-service pour l'isoler
-                            dir("${service}") {
-                                // 1. Compilation via Maven
-                                sh 'mvn clean compile'
-                                
-                                // 2. Analyse SonarQube dédiée à ce service
-                                withSonarQubeEnv('SonarQube') {
-                                    sh """
-                                        mvn sonar:sonar \
-                                        -Dsonar.projectKey=medical-app-${service} \
-                                        -Dsonar.projectName="Medical - ${service}"
-                                    """
+                            // Vérifie si le dossier existe physiquement
+                            if (fileExists("${service}")) {
+                                dir("${service}") {
+                                    
+                                    // --- CAS A : MICROSERVICE JAVA (MAVEN) ---
+                                    if (fileExists('pom.xml')) {
+                                        echo "☕ Analyse Maven pour ${service}"
+                                        sh 'mvn clean compile'
+                                        
+                                        withSonarQubeEnv('SonarQube') {
+                                            sh """
+                                                mvn sonar:sonar \
+                                                -Dsonar.projectKey=medical-app-${service} \
+                                                -Dsonar.projectName="Medical - ${service}"
+                                            """
+                                        }
+                                    } 
+                                    
+                                    // --- CAS B : FRONTEND (PNPM) ---
+                                    else if (service == 'frontend' || fileExists('package.json')) {
+                                        echo "📦 Analyse Frontend avec pnpm"
+                                        
+                                        // Installation et Build
+                                        sh 'pnpm install'
+                                        sh 'pnpm build'
+                                        
+                                        // Analyse SonarQube pour JS/TS (via SonarScanner CLI)
+                                        withSonarQubeEnv('SonarQube') {
+                                            def scannerHome = tool 'SonarScanner'
+                                            sh """
+                                                ${scannerHome}/bin/sonar-scanner \
+                                                -Dsonar.projectKey=medical-app-frontend \
+                                                -Dsonar.projectName="Medical - Frontend" \
+                                                -Dsonar.sources=. \
+                                                -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/.next/**
+                                            """
+                                        }
+                                    }
+                                    
+                                    // --- CAS C : AUTRES (ML ou dossiers vides) ---
+                                    else {
+                                        echo "⚠️ Aucun fichier de build (pom.xml ou package.json) trouvé dans ${service}. Passage au suivant."
+                                    }
                                 }
+                            } else {
+                                echo "❌ Erreur : Le dossier ${service} n'existe pas dans le dépôt."
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Pipeline terminé avec succès pour tous les services !"
+        }
+        failure {
+            echo "❌ Le pipeline a échoué. Vérifiez les logs ci-dessus."
         }
     }
 }
