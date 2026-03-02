@@ -52,6 +52,7 @@ pipeline {
                                         echo "📦 Analyse Frontend avec pnpm"
                                         
                                         // Installation et Build
+                                        sh 'npm install -g pnpm || true' // On essaie de l'installer au cas où
                                         sh 'pnpm install'
                                         sh 'pnpm build'
                                         
