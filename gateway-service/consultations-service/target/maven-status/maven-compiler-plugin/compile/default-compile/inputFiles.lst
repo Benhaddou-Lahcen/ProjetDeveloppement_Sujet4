@@ -1,0 +1,14 @@
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\dto\ConsultationDTO.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\exception\ErrorResponse.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\model\Consultation.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\service\impl\ConsultationServiceImpl.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\exception\ConsultationNotFoundException.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\ConsultationsServiceApplication.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\controller\ConsultationController.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\mapper\ConsultationMapper.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\exception\InvalidConsultationException.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\repository\ConsultationRepository.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\dto\ConsultationCreateRequest.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\client\PatientClient.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\exception\GlobalExceptionHandler.java
+C:\Users\pc\Downloads\b_mFdQtvfEuIv-1772452250341\consultations-service\src\main\java\com\hospital\consultations\service\ConsultationService.java

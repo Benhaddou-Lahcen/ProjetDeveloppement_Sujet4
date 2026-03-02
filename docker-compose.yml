@@ -369,3 +369,6 @@ volumes:
   postgres-users-data:
   postgres-consultations-data:
 
+  # volume optionnel si vous souhaitez persister les modèles ML
+  # ml-models-data:
+

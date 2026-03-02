@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  ml-service:
+    build:
+      context: .
+      dockerfile: ml-service/Dockerfile
+    container_name: ml-service
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=CHANGE_ME_TO_MATCH_AUTH_SERVICE
+    networks:
+      - hospital-network
+
+networks:
+  hospital-network:
+    driver: bridge
+

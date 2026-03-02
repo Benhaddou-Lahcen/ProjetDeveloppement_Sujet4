@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     ╔══════════════════════════════════════════════════════════════════════════════╗
-    ║                         USERS and ROLES SERVICE                                ║
+    ║                         USERS & ROLES SERVICE                                ║
     ╠══════════════════════════════════════════════════════════════════════════════╣
     ║  WHY THIS SERVICE EXISTS:                                                    ║
     ║  Manages users and their roles:                                              ║
@@ -26,7 +26,7 @@
     </parent>
 
     <artifactId>users-service</artifactId>
-    <name>Users and Roles Service</name>
+    <name>Users  Roles Service</name>
 
     <dependencies>
         <dependency>
@@ -94,4 +94,3 @@
     </build>
 
 </project>
-

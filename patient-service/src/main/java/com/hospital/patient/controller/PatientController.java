@@ -35,7 +35,7 @@ import java.util.UUID;
  * ╚══════════════════════════════════════════════════════════════════════════════╝
  */
 @RestController
-@RequestMapping("/api/patients")
+@RequestMapping("/patients")
 @RequiredArgsConstructor
 @Slf4j
 public class PatientController {

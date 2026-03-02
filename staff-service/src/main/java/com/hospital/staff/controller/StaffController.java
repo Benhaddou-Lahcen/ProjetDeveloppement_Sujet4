@@ -29,7 +29,7 @@ import java.util.List;
  * ╚══════════════════════════════════════════════════════════════════════════════╝
  */
 @RestController
-@RequestMapping("/api/staff")
+@RequestMapping("/staff")
 @RequiredArgsConstructor
 @Slf4j
 public class StaffController {
