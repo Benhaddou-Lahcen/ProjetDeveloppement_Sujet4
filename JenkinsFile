@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        // Utilise l'installation Maven 3.9.12 configurée dans Jenkins
+        // Utilise l'installation Maven 3.9.12 configurée d
         maven 'Maven'
     }
 
