@@ -27,7 +27,7 @@ public interface PatientClient {
      * Checks if a patient exists.
      * WHY: Validate patient ID before creating appointment.
      */
-    @GetMapping("/patients/{id}/exists")
+    @GetMapping("/api/patients/{id}/exists")
     Boolean checkPatientExists(@PathVariable("id") Long patientId);
 
     /**

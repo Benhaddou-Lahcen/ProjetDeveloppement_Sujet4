@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/hospital_appointments
     username: postgres
-    password: test
+    password: postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:

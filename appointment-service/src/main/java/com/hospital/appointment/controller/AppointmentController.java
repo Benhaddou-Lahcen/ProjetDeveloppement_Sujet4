@@ -2,7 +2,6 @@ package com.hospital.appointment.controller;
 
 import com.hospital.appointment.dto.AppointmentCreateRequest;
 import com.hospital.appointment.dto.AppointmentDTO;
-import com.hospital.appointment.dto.PageResponse;
 import com.hospital.appointment.model.AppointmentStatus;
 import com.hospital.appointment.service.AppointmentService;
 import jakarta.validation.Valid;
@@ -32,7 +31,7 @@ import java.util.List;
  * ╚══════════════════════════════════════════════════════════════════════════════╝
  */
 @RestController
-@RequestMapping("/appointments")
+@RequestMapping("/api/appointments")
 @RequiredArgsConstructor
 @Slf4j
 public class AppointmentController {
@@ -49,18 +48,6 @@ public class AppointmentController {
         log.info("REST request to create appointment");
         AppointmentDTO created = appointmentService.createAppointment(request);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<PageResponse<AppointmentDTO>> getAllAppointments(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        log.info("REST request to get all appointments - page {}, size {}", page, size);
-
-        return ResponseEntity.ok(
-                appointmentService.getAllAppointments(page, size)
-        );
     }
 
     /**

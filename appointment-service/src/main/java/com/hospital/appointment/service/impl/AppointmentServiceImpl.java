@@ -4,7 +4,6 @@ import com.hospital.appointment.client.PatientClient;
 import com.hospital.appointment.client.StaffClient;
 import com.hospital.appointment.dto.AppointmentCreateRequest;
 import com.hospital.appointment.dto.AppointmentDTO;
-import com.hospital.appointment.dto.PageResponse;
 import com.hospital.appointment.exception.AppointmentNotFoundException;
 import com.hospital.appointment.exception.InvalidAppointmentException;
 import com.hospital.appointment.mapper.AppointmentMapper;
@@ -14,10 +13,6 @@ import com.hospital.appointment.repository.AppointmentRepository;
 import com.hospital.appointment.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +22,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * ╔══════════════════════════════════════════════════════════════════════════════╗
@@ -96,7 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findByPatientIdOrderByAppointmentDateTimeDesc(patientId)
                 .stream()
                 .map(appointmentMapper::toDTO)
-                .collect(toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -106,7 +99,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findByDoctorIdOrderByAppointmentDateTimeAsc(doctorId)
                 .stream()
                 .map(appointmentMapper::toDTO)
-                .collect(toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -119,7 +112,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.findDoctorAppointmentsInRange(doctorId, startOfDay, endOfDay)
                 .stream()
                 .map(appointmentMapper::toDTO)
-                .collect(toList());
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -196,28 +189,5 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new InvalidAppointmentException("Doctor not found: " + doctorId);
         }
     }
-
-    public PageResponse<AppointmentDTO> getAllAppointments(int page, int size) {
-
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<Appointment> appointmentPage =
-                appointmentRepository.findAll(pageable);
-
-        List<AppointmentDTO> content =
-                appointmentPage.getContent()
-                        .stream()
-                        .map(appointmentMapper::toDTO)
-                        .toList();
-
-        return new PageResponse<>(
-                content,
-                appointmentPage.getNumber(),
-                appointmentPage.getSize(),
-                appointmentPage.getTotalElements(),
-                appointmentPage.getTotalPages()
-        );
-    }
-
 }
 

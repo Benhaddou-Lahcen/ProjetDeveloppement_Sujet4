@@ -2,7 +2,6 @@ package com.hospital.appointment.service;
 
 import com.hospital.appointment.dto.AppointmentCreateRequest;
 import com.hospital.appointment.dto.AppointmentDTO;
-import com.hospital.appointment.dto.PageResponse;
 import com.hospital.appointment.model.AppointmentStatus;
 
 import java.time.LocalDate;
@@ -70,7 +69,5 @@ public interface AppointmentService {
      * // Business logic will be added in the specialized subject
      */
     boolean isTimeSlotAvailable(Long doctorId, java.time.LocalDateTime dateTime);
-
-    PageResponse<AppointmentDTO> getAllAppointments(int page, int size);
 }
 

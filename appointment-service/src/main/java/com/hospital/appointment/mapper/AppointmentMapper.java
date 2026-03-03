@@ -2,13 +2,11 @@ package com.hospital.appointment.mapper;
 
 import com.hospital.appointment.dto.AppointmentCreateRequest;
 import com.hospital.appointment.dto.AppointmentDTO;
-import com.hospital.appointment.dto.PageResponse;
 import com.hospital.appointment.model.Appointment;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface AppointmentMapper {
-
 
     AppointmentDTO toDTO(Appointment appointment);
 
